@@ -91,38 +91,54 @@ public class Main {
     System.out.println("Node Post " + node.data);
   }
 
-  public static void levelOrderLinewise(Node node){
-    Queue<Node> qu = new ArrayDeque<>();
-    qu.add(node);
-    while(qu.size() != 0){
-        int sz = qu.size();
-        for(int i = 0; i < sz; i++){
-            
-            Node rm = qu.remove();
-            System.out.print(rm.data+" ");
-            for(Node child : rm.children){
-                qu.add(child);
-            }    
+  public static void levelOrderLinewiseZZ(Node node){
+    Stack<Node> stack = new Stack<>();
+    stack.add(node);
+
+    Stack<Node> cstack = new Stack<>();
+    int level = 0;
+
+    while(stack.size() > 0){
+      node = stack.pop();
+      System.out.print(node.data + " ");
+
+      if(level % 2 == 0){
+        for(int i = 0; i < node.children.size(); i++){
+          Node child = node.children.get(i);
+          cstack.push(child);
         }
-    System.out.println();
+      } else {
+        for(int i = node.children.size() - 1; i >= 0; i--){
+          Node child = node.children.get(i);
+          cstack.push(child);
+        }
+      }
+
+      if(stack.size() == 0){
+        stack = cstack;
+        cstack = new Stack<>();
+        level++;
+        System.out.println();
+      }
     }
-   // 2nd method
-    // Queue<Node> q1 = new ArrayDeque<>();
-    // Queue<Node> q2 = new ArrayDeque<>();
+  }
+
+  public static void mirror(Node node){
+
+    for(Node child : node.children){
+        mirror(child);
+    }
     
-    // q1.add(node);
-    // while(q1.size() > 0 || q2.size()>0){
-    //     while(q1.size() > 0){
-    //         Node rm = q1.remove();
-    //         System.out.print(rm.data+" ");
-    //         for(Node child : rm.children){
-    //             q2.add(child);
-    //         }
-    //     }
-    //     System.out.println();
-    //     q1 = q2;
-    //     q2 = new ArrayDeque<>();
-    // }
+    int left = 0;
+    int right = node.children.size() - 1;
+    while(left < right){
+        Node ln = node.children.get(left);
+        Node rn = node.children.get(right);
+        node.children.set(left,rn);
+        node.children.set(right,ln);
+        left++;
+        right--;
+    }
   }
 
   public static void main(String[] args) throws Exception {
@@ -135,7 +151,9 @@ public class Main {
     }
 
     Node root = construct(arr);
-    levelOrderLinewise(root);
+    display(root);
+    mirror(root);
+    display(root);
   }
 
 }

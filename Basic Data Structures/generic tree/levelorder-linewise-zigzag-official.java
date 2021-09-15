@@ -91,40 +91,65 @@ public class Main {
     System.out.println("Node Post " + node.data);
   }
 
-  public static void levelOrderLinewise(Node node){
-    Queue<Node> qu = new ArrayDeque<>();
-    qu.add(node);
-    while(qu.size() != 0){
-        int sz = qu.size();
-        for(int i = 0; i < sz; i++){
-            
-            Node rm = qu.remove();
-            System.out.print(rm.data+" ");
-            for(Node child : rm.children){
-                qu.add(child);
-            }    
-        }
-    System.out.println();
-    }
-   // 2nd method
-    // Queue<Node> q1 = new ArrayDeque<>();
-    // Queue<Node> q2 = new ArrayDeque<>();
+  public static void levelOrderLinewiseZZ(Node node){
+    Stack<Node> st1 = new Stack<>();
+    st1.add(node);
+    Stack<Node> st2 = new Stack<>();
+    int level = 0;
     
-    // q1.add(node);
-    // while(q1.size() > 0 || q2.size()>0){
-    //     while(q1.size() > 0){
-    //         Node rm = q1.remove();
-    //         System.out.print(rm.data+" ");
-    //         for(Node child : rm.children){
-    //             q2.add(child);
-    //         }
-    //     }
-    //     System.out.println();
-    //     q1 = q2;
-    //     q2 = new ArrayDeque<>();
-    // }
+    while(st1.size() > 0){
+        
+        node = st1.pop();
+        System.out.print(node.data +" ");
+        
+        if(level % 2 == 0){
+            for(Node child : node.children){
+                st2.push(child);
+            }
+        }else{
+            for(int i = node.children.size() -1; i >= 0; i-- ){
+                st2.push(node.children.get(i));
+            }
+        }
+        
+        if(st1.size() == 0){
+            st1 = st2;
+            st2 = new Stack<>();
+            level++;
+            System.out.println();
+        }
+    }
   }
+// // af
+// Stack<Node> stack = new Stack<>();
+//     stack.add(node);
 
+//     Stack<Node> cstack = new Stack<>();
+//     int level = 0;
+
+//     while(stack.size() > 0){
+//       node = stack.pop();
+//       System.out.print(node.data + " ");
+
+//       if(level % 2 == 0){
+//         for(int i = 0; i < node.children.size(); i++){
+//           Node child = node.children.get(i);
+//           cstack.push(child);
+//         }
+//       } else {
+//         for(int i = node.children.size() - 1; i >= 0; i--){
+//           Node child = node.children.get(i);
+//           cstack.push(child);
+//         }
+//       }
+
+//       if(stack.size() == 0){
+//         stack = cstack;
+//         cstack = new Stack<>();
+//         level++;
+//         System.out.println();
+//       }
+//     }
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n = Integer.parseInt(br.readLine());
@@ -135,7 +160,7 @@ public class Main {
     }
 
     Node root = construct(arr);
-    levelOrderLinewise(root);
+    levelOrderLinewiseZZ(root);
   }
 
 }
