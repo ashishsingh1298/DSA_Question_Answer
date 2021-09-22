@@ -6,12 +6,14 @@ public class Main {
     int data;
     ArrayList<Node> children = new ArrayList<>();
   }
-  
-  private static class Pair {
-    int dia;
-    int ht;
-  }
-
+    public static class Pair {
+        Node node;
+        int state;
+        public Pair(Node node,int state){
+            this.node =node;
+            this.state = state;
+        }
+    }
   public static void display(Node node) {
     String str = node.data + " -> ";
     for (Node child : node.children) {
@@ -48,50 +50,32 @@ public class Main {
 
     return root;
   }
-  
-  static int diameter;
-  
-  public static int height(Node node){
-      
-      int maxh = -1;
-      int smaxh = -1;
-      
-      for(Node child : node.children){
-          int ch = height(child);
-          if(ch > maxh){
-              smaxh = maxh;
-              maxh = ch;
-              
-          }else if(ch >smaxh){
-              smaxh = ch;
-          }
-      }
-      diameter = Math.max(diameter, maxh + smaxh + 2);
-      return maxh + 1;
-  }
 
-  public static Pair diameter(Node node){
-      
-      int mxht = -1;
-      int smxht = -1;
-      int dia = 0;
-      for(Node child : node.children){
-          
-          Pair cp = diameter(child);
-          
-          if(cp.ht > mxht){
-              smxht = mxht;
-              mxht = cp.ht;
-          }else if(cp.ht > smxht){
-              smxht = cp.ht;
-          }
-          dia = Math.max(dia, cp.dia);
-      }
-      
-      Pair mp = new Pair();
-      mp.ht = mxht + 1;
-      mp.dia = Math.max(dia, mxht +smxht + 2);
-      return mp;
+  public static void IterativePreandPostOrder(Node node) {
+    Stack<Pair> st = new Stack<>();
+    String pre = "";
+    String post = "";
+    
+    st.push(new Pair(node, 0));
+    while(st.size() != 0){
+        Pair tos = st.peek();
+        if(tos.state == 0){
+            pre += tos.node.data + " ";
+            if(tos.node.children.size() > 0){
+                st.push(new Pair(tos.node.children.get(0), 0));
+            }
+            tos.state++;
+        }else if(tos.state >= tos.node.children.size()){
+            post += tos.node.data +" ";
+            st.pop();
+        }else{
+            st.push(new Pair(tos.node.children.get(tos.state),0));
+            tos.state++;
+        }
+    }
+    
+    System.out.println(pre);
+    System.out.println(post);
   }
 
   public static void main(String[] args) throws Exception {
@@ -104,11 +88,7 @@ public class Main {
     }
 
     Node root = construct(arr);
-    // write your code here
-    // height(root);
-    // System.out.println(diameter);
-    Pair ap = diameter(root);
-    System.out.println(ap.dia);
+    IterativePreandPostOrder(root);
   }
 
 }

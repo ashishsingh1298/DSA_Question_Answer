@@ -32,6 +32,15 @@ import java.util.*;
 	int c = a/x;
 	int d = a%x;
 	int res=d*y+c;
+
+	// 2nd method
+	// int x;
+    // int y;
+    // x = n % (int)Math.pow(10,k);
+    // y = n / (int)Math.pow(10,k);
+    // int res = x *(int)Math.pow(10,count - k) + y;
+    // O(1) time complexity;
+	
 	System.out.println(res);
 	
    }
