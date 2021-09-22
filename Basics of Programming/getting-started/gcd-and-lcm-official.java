@@ -20,4 +20,15 @@ import java.util.*;
 		static int lcm(int a,int b) {
 			return (a*b)/gcd(a,b);
 		}
+// Approach 2 
+		//  int div = n1;
+        // int dvd = n2;
+        
+        // while(dvd % div != 0){
+        //    int r = dvd % div;
+        //     dvd = div;
+        //     div = r;
+        // }
+        // System.out.println(div);
+        // System.out.println((n1*n2)/div);
 }

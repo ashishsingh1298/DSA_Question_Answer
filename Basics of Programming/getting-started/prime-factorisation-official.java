@@ -15,5 +15,16 @@ public static void main(String[] args) {
 		  if(n>2){
 		      System.out.print(n);
 		  }
+// // 2nd approach
+// 	for(int div = 2; div*div <= n; div++){
+//       while(n % div == 0){
+//           n = n / div;
+//           System.out.print(div +" ");
+//       }
+//   }
+// //   THis is the case where the number is prime number.
+//   if(n != 1){
+//       System.out.print(n);
+//   }
  }
 }
