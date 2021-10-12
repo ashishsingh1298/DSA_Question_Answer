@@ -78,20 +78,31 @@ public class Main {
     display(node.left);
     display(node.right);
   }
-
-  public static void pir(Node node, int d1, int d2) {
-    if(node == null){
-        return;
-    }
-    if(d1 < node.data && d2 < node.data){
-        pir(node.left, d1, d2);
-    }else if(d1 > node.data && d2 > node.data){
-        pir(node.right, d1, d2);
-    }else{
-        pir(node.left, d1, d2);
-        System.out.println(node.data);
-        pir(node.right, d1, d2);
-    }
+  
+  public static boolean find(Node node, int data){
+      if(node == null){
+          return false;
+      }
+      else if(node.data > data){
+          return find(node.left, data);
+      }else if(node.data < data){
+          return find(node.right, data);
+      }else{
+          return true;
+      }
+  }
+  public static void tspBst(Node root, Node node, int tar){
+      if(node == null){
+          return;
+      }
+      tspBst(root, node.left,tar);
+      int comp = tar - node.data;
+      if(comp > node.data){
+          if(find(root, comp) == true){
+              System.out.println(node.data +" "+ comp);
+          }
+      }
+      tspBst(root, node.right,tar);
   }
 
   public static void main(String[] args) throws Exception {
@@ -107,11 +118,11 @@ public class Main {
       }
     }
 
-    int d1 = Integer.parseInt(br.readLine());
-    int d2 = Integer.parseInt(br.readLine());
+    int data = Integer.parseInt(br.readLine());
 
     Node root = construct(arr);
-    pir(root, d1, d2);
+    // write your code here
+    tspBst(root, root, data);
   }
 
 }
